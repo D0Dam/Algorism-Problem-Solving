@@ -1,0 +1,25 @@
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    int num = 0, save = 0, sum = 0;
+    cin >> num;
+        for(int i = 1; i < num; i++)
+        {
+            save = i;
+            sum = 0;
+            while(save > 0)
+            {
+                sum = sum + (save % 10);
+                save = save / 10;
+            }
+            if((i+sum)==num)
+            {
+                cout << i << endl;
+                return 0;
+            }
+        }
+        cout << 0 << endl;
+    return 0;
+}
