@@ -1,15 +1,20 @@
 #include<iostream>
 using namespace std;
-void swap_down();
-void swap_rigt();
+int check_right();
+int check_up();
+int swap_down(int i, int j);
+int swap_right(int i, int j);
+
+char **arr;
+int N;
+int max_value = 0;
 
 int main()
 {
-    int N;
     cin >> N;
-    int **arr = new int*[N];
+    arr = new char*[N];
     for(int i = 0; i < N; i++)
-        arr[i] = new int[N];
+        arr[i] = new char[N];
     for(int i = 0; i < N; i++)
     {
         for(int j = 0; j < N; j++)
@@ -23,14 +28,29 @@ int main()
         {  
             if(i < N - 1)
             {
-                swap_down();
+                int a;
+                a = swap_down(i, j);
+                if(max_value < a)
+                {
+                    max_value = a;
+                }
+                a = swap_down(i, j);
                 if(j < N -1)
                 {
-                    swap_right();
+                    a = swap_right(i, j);
+                    if(max_value < a)
+                    {
+                        max_value = a;
+                    }
+                    a = swap_right(i, j);
                 }
+
             }
         }
     }
+
+    cout << max_value << endl;
+
     for(int i = 0; i < N; ++i)
     { 
         delete [] arr[i];
@@ -40,12 +60,85 @@ int main()
     return 0;
 }
 
-void swap_down()
+int swap_down(int i, int j)
 {
+    char val;
+    int cr, cu;
+    val = arr[i][j];
+    arr[i][j] = arr[i + 1][j];
+    arr[i + 1][j]= val;
+    cr = check_right();
+    cu = check_up();
 
+    if(cr > cu)
+        return cr;
+    else
+        return cu;
 }
 
-void swap_right()
+int swap_right(int i, int j)
 {
+    char val;
+    int cr, cu;
+    val = arr[i][j];
+    arr[i][j] = arr[i][j + 1];
+    arr[i][j + 1]= val;
+    
+    cr = check_right();
+    cu = check_up();
+    
+    if(cr > cu)
+        return cr;
+    else
+        return cu;
+}
 
+int check_right()
+{
+    int count = 0, max = 0;
+    for(int i = 0; i < N; i++)
+    {
+        count = 1;
+        for(int j = 0; j < N - 1; j++)
+        {
+            if(arr[i][j]==arr[i][j+1])
+            {
+                count++;
+            }
+            else
+            {
+                count=1;
+            }
+            if(max<count)
+            {
+                max = count;
+            }
+        }
+    }
+    return max;
+}
+
+int check_up()
+{
+    int count = 0, max = 0;
+    for(int j = 0; j < N; j++)
+    {
+        count = 1;
+        for(int i = 0; i < N - 1; i++)
+        {
+            if(arr[i][j]==arr[i + 1][j])
+            {
+                count++;
+            }
+            else
+            {
+                count=1;
+            }
+            if(max<count)
+            {
+                max = count;
+            }
+        }
+    }
+    return max;
 }
