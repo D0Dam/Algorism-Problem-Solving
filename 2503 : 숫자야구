@@ -1,0 +1,79 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int find (int i, vector<vector<int>> vec, int a);
+
+int main()
+{    
+    int qnum = 0;
+    int result = 0;
+    cin >> qnum;
+    vector<vector<int>> vec;
+    for(int i = 0; i < qnum; i++)
+    {
+        vector<int> v(3);
+        vec.push_back(v);
+    }
+    for(int p = 0; p < qnum; p++)
+        for(int q= 0; q < 3; q++)
+            cin >> vec[p][q];
+
+    for(int i = 111; i < 1000; i++)
+    {
+        int check = 0;
+        for(int count = 0; count < qnum; count++)
+        {
+            check = check + find(i, vec, count);
+        }
+        if(check%(qnum * 2)==0)
+            result++;
+    }
+
+    cout << result << endl;
+
+    return 0;
+}
+
+int find(int i, vector<vector<int>> vec, int a)
+{
+    int s = 0, b = 0;
+    int hi = i/100;
+    int ti = (i/10)%10;
+    int oi = i%10;
+    int hv = vec[a][0]/100;
+    int tv = (vec[a][0]/10)%10;
+    int ov = vec[a][0]%10;
+    
+    if(hi==ti || hi == oi || ti == oi || ti == 0 || oi == 0)
+        return 1;
+
+    if(hi == hv)
+        s++;
+    if(hi == tv)
+        b++;
+    if(hi == ov)
+        b++;
+
+    if(ti == hv)
+        b++;
+    if(ti == tv)
+        s++;
+    if(ti == ov)
+        b++;
+
+    if(oi == hv)
+        b++;
+    if(oi == tv)
+        b++;
+    if(oi == ov)
+        s++;
+
+    if(vec[a][1] == s && vec[a][2] == b)
+    {
+        return 2;
+    }
+    else
+    {
+        return 1;
+    }
+}
