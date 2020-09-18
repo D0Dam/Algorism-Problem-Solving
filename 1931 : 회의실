@@ -1,0 +1,33 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main()
+{
+    int N;
+    vector<int> v1, v2;
+    cin >> N;
+    for(int i = 0; i < N; i++)
+    {
+        int n1, n2;
+        cin >> n1 >> n2;
+        v1.push_back(n1);
+        v2.push_back(n2);
+    }
+
+    int min = v2[0];
+    int minj = 0;
+
+    for(int j = 1; j < N; j++)
+    {
+        if(min > v2[j])
+        {
+            min = v2[j];
+            minj = j;
+        }
+    }
+
+
+    return 0;
+}
