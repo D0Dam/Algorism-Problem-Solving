@@ -1,0 +1,45 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main()
+{
+    int N, L;
+    vector<int> v;
+    cin >> N >> L;
+
+    for(int i = 0; i < N; i++)
+    {  
+        int a;
+        cin >> a;
+        v.push_back(a);
+    }
+
+    sort(v.begin(), v.end());
+    int f = 0;
+    int count_tape = 0;
+
+    for(int i = 1; i < N; i++)
+    {
+        if(L-1 < v[i]-v[f])
+        {
+            count_tape++;
+            f=i;
+        }
+        if(i == (N - 1))
+        {
+            count_tape++;
+        }
+    }
+
+    if(N == 1)
+    {
+        cout << 1 << endl;
+    }   
+    else
+    {
+        cout << count_tape << endl;
+    }
+    return 0;
+}
