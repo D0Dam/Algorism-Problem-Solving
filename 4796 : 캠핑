@@ -2,9 +2,12 @@
 #include<vector>
 using namespace std;
 
+int res(int L, int P, int V);
+
 int main()
 {
     int a = 1;
+    int num = 0;
     vector<int> v;
     while(a != -1)
     {
@@ -13,20 +16,35 @@ int main()
         {
             cin >> arr[i];
             v.push_back(arr[i]);
+            num++;
         }
+        
         if(arr[0] == 0 && arr[1] == 0 && arr[2] == 0)
             a=-1;
+    }
+    a = 1;
+    int p = 0;
+    while(a * 3 < num - 1)
+    {
+        cout << "Case " << a << ": " << res(v[p], v[p + 1], v[p + 2]) << endl;
+        a++;
+        p=p+3;
     }
 
     return 0;
 }
 
-void res(int L, int P, int V)
+int res(int L, int P, int V)
 {
     int result = 0;
-    result = (V/P)*L;
-    if(V-result > L)
+    result = (V/P) * L;
+    if(V % P > L)
     {
-        result = V-result
+        result = result + L;
     }
+    else
+    {
+        result = result + V % P;
+    }
+    return result;
 }
