@@ -1,33 +1,48 @@
 #include<iostream>
 #include<vector>
 #include<algorithm>
+
 using namespace std;
+
+class leture{
+public:
+    int start;
+    int finish;
+    leture(int start, int finish): start(start), finish(finish) {}
+};
+
+bool compare(leture a, leture b)
+{
+    if(a.finish == b.finish)
+        return a.start < b.start;
+    else
+        return a.finish < b.finish;
+}
 
 int main()
 {
     int N;
-    vector<int> v1, v2;
     cin >> N;
+    vector<leture> arr;
+
     for(int i = 0; i < N; i++)
     {
-        int n1, n2;
-        cin >> n1 >> n2;
-        v1.push_back(n1);
-        v2.push_back(n2);
+        int a, b;
+        cin >> a >> b;
+        arr.push_back(leture(a, b));
     }
 
-    int min = v2[0];
-    int minj = 0;
-
-    for(int j = 1; j < N; j++)
+    sort(arr.begin(), arr.end(), compare);
+    int p = 0;
+    int count = 1;
+    for(int i = 1; i < N; i++)
     {
-        if(min > v2[j])
+        if(arr[p].finish <= arr[i].start)
         {
-            min = v2[j];
-            minj = j;
+            p=i;
+            count++;
         }
     }
-
-
+    cout << count << endl;
     return 0;
 }
