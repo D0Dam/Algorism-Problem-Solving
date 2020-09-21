@@ -33,21 +33,29 @@ int main()
     }
 
     sort(arr.begin(), arr.end(), compare);
+    
     int p = 0;
     int count = 0;
-    int k = 1;
-    while(k!=-1)
+    int k = 0;
+    int read = 0;
+    while(k!=N)
     {
-        for(int i = k; i < N; i++)
+        for(int i = read; i < N - 1; i++)
         {
-            if(arr[p].finish <= arr[i].start)
+
+            if(arr[p].finish <= arr[i + 1].start)
             {
                 arr[p].start = -1;
-                arr[p].finish = -1;
-                p=i;
-                arr[p].start = -1;
+                arr[i + 1].start = -1;
+                k++;
             }
         }
+        
+        while(arr[read].start == -1)
+            read++;
+
+        p = read;
+        k++;
         count++;
     }
     
