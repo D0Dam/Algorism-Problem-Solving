@@ -1,0 +1,87 @@
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+    int N, K;
+    cin >> N >> K;
+    int *Multitap = new int[N];
+    int *UseThing = new int[K];
+    int *ThingCount= new int[K];
+    for(int i = 0; i < N; i++)
+        ThingCount[i] = 0;
+    for(int i = 0; i < K; i++)
+    {
+        int a;
+        cin >> a;    
+        UseThing[i] = a;
+        ThingCount[a-1]++;
+    }
+    for(int i = 0; i < N; i++)
+        Multitap[i] = -1;//-1이 빈 탭임
+
+    int space = 0;//플러그 공간
+    int fuseindex = -1;//인덱스값
+    int countresult = 0;//뽑은 횟수 측정
+
+    //전기용품 차례대로 사용
+    for(int i = 0; i < K; i++)
+    {
+        for(int j = 0; j < N; j++)//각 플러그 확인
+        {
+            for(int k = 0; k < N; k++)
+            {
+                    if(Multitap[k]==UseThing[i])
+                    {
+                        ThingCount[UseThing[i]-1]--;
+                        if(ThingCount[UseThing[i]-1] == 0)//카운트가 0된 건 빼도 되는것이므로 저장해둠.
+                        { 
+                            if(fuseindex<0)  
+                            {
+                                fuseindex = k;
+                            }
+                        }
+                        i++;
+                        k=0;
+                    }
+            }
+
+            if(space==N)//공간이 꽉 찼을 때
+            {;
+                if(fuseindex >= 0)//뽑을 코드가 있을 때
+                {
+                    Multitap[fuseindex] = -1;
+                    fuseindex = -1;//뽑았으므로 초기화
+                    space--;//공간 1 비우기
+                    countresult++;//한번 뽑음
+                }
+                else//뽑을 코드가 없을 때
+                {
+                    Multitap[0] = -1;//암거나 뽑음
+                    space--;
+                    countresult++;
+                }
+            }
+
+            if(Multitap[j] == -1)//비었으면
+            {
+                Multitap[j] = UseThing[i];//꽂고
+                space++;//공간 1 증가
+                ThingCount[UseThing[i]-1]--;//사용한 전기용품 카운트 1 감소
+                if(ThingCount[UseThing[i]-1] == 0)//카운트가 0된 건 빼도 되는것이므로 저장해둠.
+                {   
+                    if(fuseindex<0)
+                    fuseindex = j;
+                }
+                break;
+            }
+        }  
+    }
+
+    cout << countresult << endl;
+
+    delete[] Multitap;
+    delete[] UseThing;
+    return 0;
+}
