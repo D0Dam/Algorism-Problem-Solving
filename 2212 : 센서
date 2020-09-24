@@ -1,0 +1,43 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+int main()
+{
+    int N = 0, K = 0;
+    int BiggestSTS = 0;
+    vector<int> Sencer;
+    vector<int> STS;
+    cin >> N >> K;
+
+    for(int i = 0; i < N; i++)
+    {
+        int in;
+        cin >> in;
+        Sencer.push_back(in);
+    }
+    sort(Sencer.begin(), Sencer.end(), less<int>());
+    
+        if(N<=K)
+    {
+        cout << 0 << endl;
+        return 0;
+    }
+
+    for(int j = 0; j < N-1; j++)
+    {
+        int sts = Sencer[j+1]-Sencer[j];
+        STS.push_back(sts);
+    }
+    sort(STS.begin(), STS.end(), greater<int>());
+
+    BiggestSTS = Sencer.back() - *(Sencer.begin());
+
+    for(int p = 0; p < K - 1; p++)
+        BiggestSTS = BiggestSTS - STS.at(p);
+   
+    cout << BiggestSTS << endl;
+
+    return 0;
+}
