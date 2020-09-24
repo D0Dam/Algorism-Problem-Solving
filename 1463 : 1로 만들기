@@ -1,0 +1,30 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int MAX = 1000002;
+
+int main()
+{
+    int N;
+    vector<int> Ncount(MAX, -1);
+    cin >> N;
+    Ncount[1] = 0;
+
+    for(int i = 1; i < N; i++){ 
+        if(i*3<N+1){
+            if((Ncount[i*3] == -1) || (Ncount[i]+1 < Ncount[i*3]))
+                Ncount[i*3] = Ncount[i] + 1;
+        }
+        if(i*2<N+1){
+            if((Ncount[i*2] == -1) || (Ncount[i]+1 < Ncount[i*2]))
+                Ncount[i*2] = Ncount[i] + 1;
+        }
+        if(i+1<N+1){
+        if((Ncount[i+1] == -1) || (Ncount[i]+1 < Ncount[i+1]))
+            Ncount[i+1] = Ncount[i] + 1;
+        }
+    }
+    cout << Ncount[N] << endl;
+
+    return 0;
+}
