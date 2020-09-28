@@ -1,0 +1,62 @@
+#include<iostream>
+#include<cstdio>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+
+int N;
+int Count = 0;
+vector<int> Answer;
+int arr[26][26];
+bool visited[26][26] = {false, };
+int ny[4] = {1, -1, 0, 0};//상하
+int nx[4] = {0, 0, -1, 1};//좌우
+
+void dfs(int x, int y){
+    Count++;
+    for(int i = 0; i < 4; i++){
+        int X, Y;
+        X = x + nx[i];
+        Y = y + ny[i];
+        
+    if(X < 0 || Y < 0 || X >= N || Y >= N)
+        continue;
+
+    if(arr[X][Y] == 1 && !visited[X][Y]){
+            visited[X][Y] = true;
+            dfs(X, Y);
+        }
+    }
+}
+
+int main()
+{
+    scanf("%d", &N);
+
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            scanf("%1d", &arr[i][j]);
+        }
+    }
+
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < N; j++){
+            if(arr[i][j]==1 && !visited[i][j]){
+                visited[i][j] = true;
+                Count = 0;
+                dfs(i, j);
+                Answer.push_back(Count);
+            }
+        }
+    }
+
+    sort(Answer.begin(), Answer.end());
+
+    printf("%d\n", Answer.size());
+    for(int i = 0; i < Answer.size(); i++){
+        printf("%d\n", Answer[i]);
+    }
+    
+    return 0;
+}
