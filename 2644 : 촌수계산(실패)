@@ -1,0 +1,75 @@
+#include<iostream>
+#include<cstdio>
+#include<queue>
+#include<algorithm>
+#include<vector>
+using namespace std;
+
+class Graph{
+public:
+    int N, P1, P2;
+    vector<vector<int>> list;
+
+    Graph(int n, int p1, int p2) : N(n), P1(p1), P2(p2) {
+        list.resize(N+1);
+    }
+
+    void AddEdge(int u, int v){
+            list[u].push_back(v);
+            list[v].push_back(u);
+    }
+
+    void SortList(){
+        for(int i = 0; i < N; i++)
+            sort(list[i].begin(), list[i].end());
+    }
+
+    int bfs(){
+        int chon = 0;
+        queue<int> Q;
+        vector<bool> visited(N+1, false);
+        Q.push(P1);
+        visited[P1] = true;
+        
+        
+        while(!Q.empty()){
+            int curr = Q.front();
+            Q.pop();
+            chon++;
+            for(int next: list[curr]){
+                if(!visited[next]){
+                    visited[next] = true;
+                    Q.push(next);
+                    if(next == P2){
+                    return chon;
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};
+
+
+int main(){
+
+    int n, m, p1, p2;
+    scanf("%d ", &n);
+    scanf("%d %d ", &p1, &p2);
+    scanf("%d ", &m);
+    if(p1>p2)
+        swap(p1, p2);
+    
+    Graph G(n, p1, p2);
+
+    for(int i = 0; i < m; i++){
+        int u, v;
+        scanf("%d %d", &u, &v);
+        G.AddEdge(u, v);
+    }
+    G.SortList();
+
+    cout << G.bfs() << endl;
+    
+    return 0;
+}
