@@ -25,6 +25,10 @@ public:
     }
 
     int bfs(){
+
+        if(P1 == P2)
+            return 0;
+
         int chon = 0;
         queue<int> Q;
         vector<bool> visited(N+1, false);
@@ -33,18 +37,21 @@ public:
         
         
         while(!Q.empty()){
-            int curr = Q.front();
-            Q.pop();
-            chon++;
-            for(int next: list[curr]){
-                if(!visited[next]){
-                    visited[next] = true;
-                    Q.push(next);
-                    if(next == P2){
+            int qSize = Q.size();          //이 큐의 사이즈를 받아서
+            for(int i = 0; i < qSize; i++){//여기에 넣어주고 사이즈만큼 for문을 돌려주는 것이 중요
+                int curr = Q.front();      // 이것때문에 겁나 많이 틀림(이 과정을 생략해서)
+                Q.pop();
+                if(curr == P2){
                     return chon;
-                    }
                 }
+                for(int next: list[curr]){
+                    if(!visited[next]){
+                        visited[next] = true;
+                        Q.push(next);
+                    }
+                }   
             }
+            chon++;
         }
         return -1;
     }
@@ -57,8 +64,6 @@ int main(){
     scanf("%d ", &n);
     scanf("%d %d ", &p1, &p2);
     scanf("%d ", &m);
-    if(p1>p2)
-        swap(p1, p2);
     
     Graph G(n, p1, p2);
 
@@ -67,8 +72,6 @@ int main(){
         scanf("%d %d", &u, &v);
         G.AddEdge(u, v);
     }
-    G.SortList();
-
     cout << G.bfs() << endl;
     
     return 0;
