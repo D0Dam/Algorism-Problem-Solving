@@ -1,0 +1,52 @@
+#include<iostream>
+#include<cstdio>
+#include<queue>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int N, M;
+int Maze[101][101];
+bool visited[101][101] = {false, };
+int dx[4] = {0, 0, -1, 1};
+int dy[4] = {1, -1, 0, 0};
+
+int main(){
+    scanf("%d %d ", &N, &M);
+    for(int i = 0; i < N; i++){
+        for(int j = 0; j < M; j++){
+            scanf("%1d", &Maze[i][j]);
+        }
+    }
+
+    queue<pair<int, int>> Q;
+    Q.push({0, 0});
+    visited[0][0] = true;
+    int Level = 1;
+
+    while(!Q.empty()){
+        int Qsize = Q.size();
+        for(int i = 0 ; i < Qsize; i++){
+            int cuy = Q.front().first;
+            int cux = Q.front().second;
+            Q.pop();
+            for(int j = 0; j < 4; j++){
+                int X = cux + dx[j];
+                int Y = cuy + dy[j];
+                
+                if(X < 0 || Y < 0 || X >= M || Y >= N)
+                    continue;
+
+                if(!visited[Y][X] && Maze[Y][X] == 1){
+                    Q.push({Y, X});
+                    visited[Y][X] = true;
+                }
+            }
+        }
+        Level++;
+        if(visited[N-1][M-1]) break;
+    }
+
+    printf("%d\n", Level);
+    return 0;
+}
