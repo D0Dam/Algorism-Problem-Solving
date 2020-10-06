@@ -1,0 +1,80 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<algorithm>
+using namespace std;
+
+int N, M, V;
+
+class Graph{
+public:
+    int n, m, v;
+    vector<vector<int>> list;
+    vector<int> visited;
+    Graph(){}
+    Graph(int gn, int gm, int gv): n(gn), m(gm), v(gv) {
+        list.resize(n+1);
+        visited.resize(n+1);
+    }
+
+    void AddEdge(int u, int v){
+        list[u].push_back(v);
+        list[v].push_back(u);
+    }
+
+    void SortList(){
+        for(int i = 1; i <= N; i++)
+            sort(list[i].begin(), list[i].end());
+    }
+
+    void bfs(){
+        fill(visited.begin(), visited.end(), false);
+        queue<int> Q;
+        Q.push(v);
+        visited[v] = true;
+
+        while(!Q.empty()){
+            int curr = Q.front();
+            cout << Q.front() << ' ';
+            Q.pop();
+            for(int next: list[curr]){
+                if(!visited[next]){
+                    Q.push(next);
+                    visited[next] = true;
+                }
+            }
+        }
+    }
+
+    void dfs(){
+        fill(visited.begin(), visited.end(), false);
+        dfs(v);
+    }
+
+    void dfs(int curr){
+        visited[curr] = true;
+        cout << curr << ' ';
+        for(int next: list[curr]){
+            if(!visited[next]){
+                dfs(next);
+            }
+        }
+    }
+};
+
+int main(){
+    cin >> N >> M >> V;
+    Graph G(N, M, V);
+    for(int i = 0; i < M; i++){
+        int u, v;
+        cin >> u >> v;
+        G.AddEdge(u, v);
+    }
+
+    G.SortList();
+    G.dfs();
+    cout << '\n';
+    G.bfs();
+
+    return 0;
+}
