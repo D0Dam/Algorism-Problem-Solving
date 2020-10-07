@@ -37,9 +37,9 @@ int main(){
     
     for(int i = 1; i <= N; i++){
         for(int j = 1; j <= M; j++){
-            if(!visited[j][i] && arr[j][i] == 1){
+            if(!visited[i][j] && arr[i][j] == 1){//이거 i, j 바꿔서 넣어가지고 틀림
                 T = 0;
-                dfs(j, i);
+                dfs(i, j);//이것도!!! 제발 잘 보자
                 if(TrashMax <= T)
                     TrashMax = T;
             }
